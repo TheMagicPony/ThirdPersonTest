@@ -28,6 +28,45 @@ using System.Collections;
 /// </summary>
 public class CharacterControllerLogic : MonoBehaviour 
 {
+	
+	[SerializeField]
+	private Animator animator;
+	[SerializeField]
+	private float DirectionDampTime = 0.25f;
+	
+	private float speed = 0.0f;
+	private float h = 0.0f;
+	private float v = 0.0f;
+	
+	void Start()
+	{
+		animator = GetComponent<Animator>();
+		
+		if(animator.layerCount >= 2)
+		{
+			animator.SetLayerWeight(1,1);	
+		}
+	}
+	
+	
+	void Update()
+	{
+		if(animator)
+		{
+			//if(Input.GetKey(KeyCode.D))
+		//		h = 0.5f;
+			h = Input.GetAxis("Horizontal");
+			v = Input.GetAxis("Vertical");
+		//	if(Input.GetKey(KeyCode.S))
+			//	v = 0.5f;
+
+			
+			speed = h * h + v *v;
+			animator.SetFloat("Speed", speed);
+			animator.SetFloat("Direction", h, DirectionDampTime, Time.deltaTime);
+		}
+	}
+	/*
 	#region Variables (private)
 	
 	// Inspector serialized
@@ -288,4 +327,5 @@ public class CharacterControllerLogic : MonoBehaviour
 	}	
 	
 	#endregion Methods
+	*/
 }
